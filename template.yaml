@@ -1,0 +1,23 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+Resources:
+  CreateShortLinkFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: st-create-short-link
+      Runtime: python3.8
+      Handler: lambda_function.lambda_handler
+      CodeUri: src/createShortLink
+      Description: 'Creates a new short link'
+      Timeout: 15
+      Role: arn:aws:iam::388474961170:role/lambda-admin
+  ShortLinkRedirectFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: st-short-link-redirect
+      Runtime: python3.8
+      Handler: lambda_function.lambda_handler
+      CodeUri: src/shortLinkRedirect
+      Description: 'Redirects request based off short link from URL path'
+      Timeout: 5
+      Role: arn:aws:iam::388474961170:role/lambda-admin
