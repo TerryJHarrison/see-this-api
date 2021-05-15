@@ -1,5 +1,6 @@
 import boto3
 import time
+import jwt
 import json
 from botocore.exceptions import ClientError
 from random_word import RandomWords
@@ -8,13 +9,14 @@ table = None
 random = None
 
 
-def put_link(link, url):
+def put_link(link, url, owner):
     global table
     # expires in 7 days
     item = {
         'link': link,
         'url': url,
-        'expiresAt': int(time.time()) + 604800
+        'owner': owner,
+        'expiresAt': int(time.time()) + 1209600
     }
 
     response = table.put_item(
@@ -57,15 +59,25 @@ def lambda_handler(event, context):
         dynamodb = boto3.resource('dynamodb')
         table = dynamodb.Table('st-short-links')
 
+    decoded = jwt.decode(event['headers']['Authorization'], options={"verify_signature": False})
+    if not 'cognito:username' in decoded:
+        return {
+            "statusCode": 400,
+            'body': 'OwnerIDRequired',
+            'headers': {
+                'Access-Control-Allow-Origin': "*"
+            }
+        }
+
     # Use provided path or generate one otherwise
     payload = json.loads(event['body'])
     path = generate_random_path() if not "link" in payload or payload['link'] == '' else payload["link"]
 
     try:
-        put_link(path.lower(), payload["url"])
+        put_link(path.lower(), payload["url"], decoded['cognito:username'])
         return {
             'statusCode': 200,
-            'body': json.dumps({
+            'body':  json.dumps({
                 'link': path
             }),
             'headers': {
@@ -76,7 +88,7 @@ def lambda_handler(event, context):
         if e.response['Error']['Code'] == 'ConditionalCheckFailedException':
             return {
                 "statusCode": 400,
-                "body": "LinkAlreadyExists",
+                'body': "LinkAlreadyExists",
                 'headers': {
                     'Access-Control-Allow-Origin': "*"
                 }

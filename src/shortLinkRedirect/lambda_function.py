@@ -3,17 +3,16 @@ import boto3
 table = None
 
 
-def not_found():
-    return {
-        'status': '200',
-        'statusDescription': 'Link Not Found',
-        'headers': {
-            'location': [{
-                'key': 'Location',
-                'value': "/404.html"
-            }]
-        }
+not_found = {
+    'status': '200',
+    'statusDescription': 'Link Not Found',
+    'headers': {
+        'location': [{
+            'key': 'Location',
+            'value': "/"
+        }]
     }
+}
 
 
 def redirect(url):
@@ -48,10 +47,10 @@ def lambda_handler(event, context):
 
     if not link:
         print(f"No link found for request: {request}")
-        return not_found()
+        return not_found
 
     try:
         return redirect(find_url(link))
     except Exception as e:
         print(e)
-        return not_found()
+        return not_found
