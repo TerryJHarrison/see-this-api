@@ -9,14 +9,15 @@ table = None
 random = None
 
 
-def put_link(link, url, owner):
+def put_link(link, redirect_url, owner):
     global table
-    # expires in 7 days
     item = {
         'link': link,
-        'url': url,
+        'redirectUrl': redirect_url,
+        'clickCount': 0,
         'owner': owner,
-        'expiresAt': int(time.time()) + 1209600
+        'createdAt': int(time.time()),
+        'expiresAt': int(time.time()) + 1209600 # 14 days
     }
 
     response = table.put_item(
@@ -74,7 +75,7 @@ def lambda_handler(event, context):
     path = generate_random_path() if not "link" in payload or payload['link'] == '' else payload["link"]
 
     try:
-        put_link(path.lower(), payload["url"], decoded['cognito:username'])
+        put_link(path.lower(), payload["redirectUrl"], decoded['cognito:username'])
         return {
             'statusCode': 200,
             'body':  json.dumps({

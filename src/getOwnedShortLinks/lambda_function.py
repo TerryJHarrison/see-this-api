@@ -3,6 +3,7 @@ import jwt
 import json
 from boto3.dynamodb.conditions import Key
 from botocore.exceptions import ClientError
+from pprint import pprint
 
 table = None
 random = None
@@ -12,7 +13,8 @@ def get_owned_links(owner):
     global table
     response = table.query(
         IndexName="owner-link-index",
-        Select="ALL_ATTRIBUTES",
+        Select="SPECIFIC_ATTRIBUTES",
+        ProjectionExpression="link,redirectUrl,expiresAt,clickCount",
         KeyConditionExpression=Key('owner').eq(owner),
     )
 
@@ -43,6 +45,8 @@ def lambda_handler(event, context):
         for link in links:
             if "expiresAt" in link:
                 link["expiresAt"] = str(link["expiresAt"])
+            if "clickCount" in link:
+                link["clickCount"] = str(link["clickCount"])
         return {
             'statusCode': 200,
             'body': json.dumps({
@@ -53,7 +57,7 @@ def lambda_handler(event, context):
             }
         }
     except ClientError as e:
-        print(e.response['Error']['Code'], e.response)
+        pprint(f"${e.response['Error']['Code']} ${e.response}`")
         return {
             'statusCode': 500,
             'body': 'UnknownError',
@@ -61,3 +65,13 @@ def lambda_handler(event, context):
                 'Access-Control-Allow-Origin': "*"
             }
         }
+
+
+if __name__ == "__main__":
+    test_response = lambda_handler({
+        'headers': {
+            'Authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwiY29nbml0bzp1c2VybmFtZSI6InRqaGFycmlzb24iLCJpYXQiOjE1MTYyMzkwMjJ9.psL1JmW6CxOPcfjMKvWfYQ7TYTMZIocs9q0ctDxjTsA' # tjharrisonjr
+        }
+    }, None)
+
+    pprint(test_response, indent=2)
