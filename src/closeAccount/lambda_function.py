@@ -1,8 +1,19 @@
 import boto3
 import jwt
 from botocore.exceptions import ClientError
+from pprint import pprint
 
 cognito = None
+
+
+def res(code, body):
+    return {
+            "statusCode": code,
+            'body': body,
+            'headers': {
+                'Access-Control-Allow-Origin': "*"
+            }
+        }
 
 
 def lambda_handler(event, context):
@@ -12,13 +23,7 @@ def lambda_handler(event, context):
 
     decoded = jwt.decode(event['headers']['Authorization'], options={"verify_signature": False})
     if not 'cognito:username' in decoded:
-        return {
-            "statusCode": 400,
-            'body': 'OwnerIDRequired',
-            'headers': {
-                'Access-Control-Allow-Origin': "*"
-            }
-        }
+        return res(400, 'OwnerIDRequired')
 
     try:
         cognito.admin_delete_user(
@@ -26,19 +31,7 @@ def lambda_handler(event, context):
             Username=decoded['cognito:username']
         )
 
-        return {
-            'statusCode': 200,
-            'body': "AccountClosed",
-            'headers': {
-                'Access-Control-Allow-Origin': "*"
-            }
-        }
+        return res(200, "AccountClosed")
     except ClientError as e:
-        print(e.response['Error']['Code'], e.response)
-        return {
-            'statusCode': 500,
-            'body': 'UnknownError',
-            'headers': {
-                'Access-Control-Allow-Origin': "*"
-            }
-        }
+        pprint(e.response)
+        return res(500, 'UnknownError')

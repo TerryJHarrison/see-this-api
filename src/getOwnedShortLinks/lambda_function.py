@@ -9,6 +9,16 @@ table = None
 random = None
 
 
+def res(code, body):
+    return {
+            "statusCode": code,
+            'body': body,
+            'headers': {
+                'Access-Control-Allow-Origin': "*"
+            }
+        }
+
+
 def get_owned_links(owner):
     global table
     response = table.query(
@@ -32,13 +42,7 @@ def lambda_handler(event, context):
 
     decoded = jwt.decode(event['headers']['Authorization'], options={"verify_signature": False})
     if not 'cognito:username' in decoded:
-        return {
-            "statusCode": 400,
-            'body': 'OwnerIDRequired',
-            'headers': {
-                'Access-Control-Allow-Origin': "*"
-            }
-        }
+        return res(400, 'OwnerIDRequired')
 
     try:
         links = get_owned_links(decoded["cognito:username"])
@@ -47,24 +51,11 @@ def lambda_handler(event, context):
                 link["expiresAt"] = str(link["expiresAt"])
             if "clickCount" in link:
                 link["clickCount"] = str(link["clickCount"])
-        return {
-            'statusCode': 200,
-            'body': json.dumps({
-                'links': links
-            }),
-            'headers': {
-                'Access-Control-Allow-Origin': "*"
-            }
-        }
+        return res(200, json.dumps({'links': links}))
+
     except ClientError as e:
         pprint(f"${e.response['Error']['Code']} ${e.response}`")
-        return {
-            'statusCode': 500,
-            'body': 'UnknownError',
-            'headers': {
-                'Access-Control-Allow-Origin': "*"
-            }
-        }
+        return res(500, 'UnknownError')
 
 
 if __name__ == "__main__":

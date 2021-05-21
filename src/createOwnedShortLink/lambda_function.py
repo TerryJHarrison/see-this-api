@@ -4,9 +4,20 @@ import jwt
 import json
 from botocore.exceptions import ClientError
 from random_word import RandomWords
+from pprint import pprint
 
 table = None
 random = None
+
+
+def res(code, body):
+    return {
+            "statusCode": code,
+            'body': body,
+            'headers': {
+                'Access-Control-Allow-Origin': "*"
+            }
+        }
 
 
 def put_link(link, redirect_url, owner):
@@ -36,7 +47,7 @@ def does_link_exist(link):
     )
 
     if 'Item' in response:
-        print("Duplicate path generated")
+        pprint("Duplicate path generated")
         return True
     else:
         return False
@@ -62,13 +73,7 @@ def lambda_handler(event, context):
 
     decoded = jwt.decode(event['headers']['Authorization'], options={"verify_signature": False})
     if not 'cognito:username' in decoded:
-        return {
-            "statusCode": 400,
-            'body': 'OwnerIDRequired',
-            'headers': {
-                'Access-Control-Allow-Origin': "*"
-            }
-        }
+        return res(400, 'OwnerIDRequired')
 
     # Use provided path or generate one otherwise
     payload = json.loads(event['body'])
@@ -76,30 +81,24 @@ def lambda_handler(event, context):
 
     try:
         put_link(path.lower(), payload["redirectUrl"], decoded['cognito:username'])
-        return {
-            'statusCode': 200,
-            'body':  json.dumps({
-                'link': path
-            }),
-            'headers': {
-                'Access-Control-Allow-Origin': "*"
-            }
-        }
+        return res(200, json.dumps({'link': path}))
     except ClientError as e:
         if e.response['Error']['Code'] == 'ConditionalCheckFailedException':
-            return {
-                "statusCode": 400,
-                'body': "LinkAlreadyExists",
-                'headers': {
-                    'Access-Control-Allow-Origin': "*"
-                }
-            }
+            return res(400, "LinkAlreadyExists")
         else:
-            print(e.response['Error']['Code'], e.response)
-            return {
-                'statusCode': 500,
-                'body': 'UnknownError',
-                'headers': {
-                    'Access-Control-Allow-Origin': "*"
-                }
-            }
+            pprint(e.response)
+            return res(500, 'UnknownError')
+
+
+if __name__ == "__main__":
+    test_response = lambda_handler({
+        'headers': {
+            'Authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwiY29nbml0bzp1c2VybmFtZSI6InRqaGFycmlzb24iLCJpYXQiOjE1MTYyMzkwMjJ9.psL1JmW6CxOPcfjMKvWfYQ7TYTMZIocs9q0ctDxjTsA' # tjharrisonjr
+        },
+        'body': json.dumps({
+            'link': 'integration-test',
+            'redirectUrl': 'https://test.com'
+        })
+    }, None)
+
+    pprint(test_response, indent=2)

@@ -34,7 +34,7 @@ def find_url(link):
 
     response = table.get_item(Key={'link': link})
     if "Item" not in response:
-        print(f"No URL found for link {link}")
+        pprint(f"No URL found for link {link}")
         raise Exception('Not Found')
     return response['Item']['redirectUrl']
 
@@ -64,7 +64,7 @@ def lambda_handler(event, context):
     link = request["uri"].split("/")[2]
 
     if not link:
-        print(f"No link found for request: {request}")
+        pprint(f"No link found for request: {request}")
         return not_found
 
     increment_click_count(link)
@@ -72,7 +72,7 @@ def lambda_handler(event, context):
         redirect_url = find_url(link)
         return redirect(redirect_url)
     except Exception as e:
-        print(e)
+        pprint(e)
         return not_found
 
 if __name__ == "__main__":
