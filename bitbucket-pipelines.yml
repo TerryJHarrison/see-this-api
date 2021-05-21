@@ -1,0 +1,15 @@
+pipelines:
+  default:
+    - step:
+          name: Build Lambdas
+          image:
+            name: 388474961170.dkr.ecr.us-east-1.amazonaws.com/bitbucket-pipelines-python3.7:latest
+            aws:
+              access-key: $AWS_ACCESS_KEY_ID
+              secret-key: $AWS_SECRET_ACCESS_KEY
+          script:
+            - sam build --use-container
+            - sam package --s3-bucket deploy.harrison.enterprises --output-template-file ./packaged.yaml
+            - sam deploy --template-file ./packaged.yaml --stack-name "see-this-api" --capabilities CAPABILITY_IAM --region us-east-1
+          services:
+            - docker
