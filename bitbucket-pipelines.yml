@@ -9,7 +9,7 @@ pipelines:
               secret-key: $AWS_SECRET_ACCESS_KEY
           script:
             - sam build --use-container
-            - sam package --s3-bucket deploy.harrison.enterprises --output-template-file ./packaged.yaml
-            - sam deploy --template-file ./packaged.yaml --stack-name "see-this-api" --capabilities CAPABILITY_IAM --region us-east-1
+            - sam package --s3-bucket deploy.harrison.enterprises --output-template-file ./packaged.yaml --region us-east-1
+            - sam deploy --template-file ./packaged.yaml --stack-name "see-this-api" --capabilities CAPABILITY_IAM
           services:
             - docker
