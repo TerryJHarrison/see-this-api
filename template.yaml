@@ -71,3 +71,13 @@ Resources:
       Description: "Deletes a user-owned short link"
       Timeout: 15
       Role: arn:aws:iam::388474961170:role/lambda-admin
+  GetShortLinkStatsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: st-get-short-link-stats
+      Runtime: python3.8
+      Handler: lambda_function.lambda_handler
+      CodeUri: src/getShortLinkStats
+      Description: "Calculates and returns aggregate short links stats"
+      Timeout: 15
+      Role: arn:aws:iam::388474961170:role/lambda-admin
