@@ -17,6 +17,11 @@ def res(code, body):
 
 
 def lambda_handler(event, context):
+    if not "headers" in event:
+        return res(400, 'AuthorizationRequired')
+    elif not "Authorization" in event['headers']:
+        return res(400, 'AuthorizationRequired')
+
     global cognito
     if not cognito:
         cognito = boto3.client('cognito-idp')

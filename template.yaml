@@ -1,14 +1,24 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Transform: "AWS::Serverless-2016-10-31"
 Resources:
-  CreateShortLinkFunction:
+  CloseAccountFunction:
     Type: AWS::Serverless::Function
     Properties:
-      FunctionName: st-create-short-link
+      FunctionName: st-close-account
       Runtime: python3.8
       Handler: lambda_function.lambda_handler
-      CodeUri: src/createShortLink
-      Description: "Creates a new short link"
+      CodeUri: src/closeAccount
+      Description: "Closes a user's account"
+      Timeout: 5
+      Role: arn:aws:iam::388474961170:role/lambda-admin
+  CreateLinkCollectionFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: st-create-link-collection
+      Runtime: python3.8
+      Handler: lambda_function.lambda_handler
+      CodeUri: src/createLinkCollection
+      Description: "Creates a new link collection"
       Timeout: 15
       Role: arn:aws:iam::388474961170:role/lambda-admin
   CreateOwnedShortLinkFunction:
@@ -21,44 +31,24 @@ Resources:
       Description: "Creates a new user-owned short link"
       Timeout: 15
       Role: arn:aws:iam::388474961170:role/lambda-admin
-  ShortLinkRedirectFunction:
+  CreateShortLinkFunction:
     Type: AWS::Serverless::Function
     Properties:
-      FunctionName: st-short-link-redirect
+      FunctionName: st-create-short-link
       Runtime: python3.8
       Handler: lambda_function.lambda_handler
-      CodeUri: src/shortLinkRedirect
-      Description: "Redirects request based off short link from URL path"
-      Timeout: 5
+      CodeUri: src/createShortLink
+      Description: "Creates a new short link"
+      Timeout: 15
       Role: arn:aws:iam::388474961170:role/lambda-admin
-  GetOwnedShortLinksFunction:
+  DeleteLinkCollectionFunction:
     Type: AWS::Serverless::Function
     Properties:
-      FunctionName: st-get-owned-short-links
+      FunctionName: st-delete-link-collection
       Runtime: python3.8
       Handler: lambda_function.lambda_handler
-      CodeUri: src/getOwnedShortLinks
-      Description: "Gets all short links owned by calling user"
-      Timeout: 5
-      Role: arn:aws:iam::388474961170:role/lambda-admin
-  CloseAccountFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      FunctionName: st-close-account
-      Runtime: python3.8
-      Handler: lambda_function.lambda_handler
-      CodeUri: src/closeAccount
-      Description: "Closes a user's account"
-      Timeout: 5
-      Role: arn:aws:iam::388474961170:role/lambda-admin
-  UpdateOwnedShortLinkFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      FunctionName: st-update-owned-short-link
-      Runtime: python3.8
-      Handler: lambda_function.lambda_handler
-      CodeUri: src/updateOwnedShortLink
-      Description: "Updates a user-owned short link's redirect URL"
+      CodeUri: src/deleteLinkCollection
+      Description: "Deletes a link collection"
       Timeout: 15
       Role: arn:aws:iam::388474961170:role/lambda-admin
   DeleteOwnedShortLinkFunction:
@@ -71,6 +61,26 @@ Resources:
       Description: "Deletes a user-owned short link"
       Timeout: 15
       Role: arn:aws:iam::388474961170:role/lambda-admin
+  GetLinkCollectionFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: st-get-link-collection
+      Runtime: python3.8
+      Handler: lambda_function.lambda_handler
+      CodeUri: src/getLinkCollection
+      Description: "Gets a link collection"
+      Timeout: 15
+      Role: arn:aws:iam::388474961170:role/lambda-admin
+  GetOwnedShortLinksFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: st-get-owned-short-links
+      Runtime: python3.8
+      Handler: lambda_function.lambda_handler
+      CodeUri: src/getOwnedShortLinks
+      Description: "Gets all short links owned by calling user"
+      Timeout: 5
+      Role: arn:aws:iam::388474961170:role/lambda-admin
   GetShortLinkStatsFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -79,5 +89,35 @@ Resources:
       Handler: lambda_function.lambda_handler
       CodeUri: src/getShortLinkStats
       Description: "Calculates and returns aggregate short links stats"
+      Timeout: 15
+      Role: arn:aws:iam::388474961170:role/lambda-admin
+  ShortLinkRedirectFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: st-short-link-redirect
+      Runtime: python3.8
+      Handler: lambda_function.lambda_handler
+      CodeUri: src/shortLinkRedirect
+      Description: "Redirects request based off short link from URL path"
+      Timeout: 5
+      Role: arn:aws:iam::388474961170:role/lambda-admin
+  UpdateLinkCollectionFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: st-update-link-collection
+      Runtime: python3.8
+      Handler: lambda_function.lambda_handler
+      CodeUri: src/updateLinkCollection
+      Description: "Updates a link collection"
+      Timeout: 15
+      Role: arn:aws:iam::388474961170:role/lambda-admin
+  UpdateOwnedShortLinkFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: st-update-owned-short-link
+      Runtime: python3.8
+      Handler: lambda_function.lambda_handler
+      CodeUri: src/updateOwnedShortLink
+      Description: "Updates a user-owned short link's redirect URL"
       Timeout: 15
       Role: arn:aws:iam::388474961170:role/lambda-admin

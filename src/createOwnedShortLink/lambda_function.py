@@ -66,6 +66,11 @@ def generate_random_path():
 
 
 def lambda_handler(event, context):
+    if not "headers" in event:
+        return res(400, 'AuthorizationRequired')
+    elif not "Authorization" in event['headers']:
+        return res(400, 'AuthorizationRequired')
+
     global table
     if not table:
         dynamodb = boto3.resource('dynamodb')

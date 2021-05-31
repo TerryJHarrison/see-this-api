@@ -34,6 +34,11 @@ def get_link(link):
 
 
 def lambda_handler(event, context):
+    if not "headers" in event:
+        return res(400, 'AuthorizationRequired')
+    elif not "Authorization" in event['headers']:
+        return res(400, 'AuthorizationRequired')
+
     decoded = jwt.decode(event['headers']['Authorization'], options={"verify_signature": False})
     if not 'cognito:username' in decoded:
         return res(400, 'OwnerIDRequired')
@@ -48,9 +53,15 @@ def lambda_handler(event, context):
         dynamodb = boto3.resource('dynamodb')
         table = dynamodb.Table('st-short-links')
 
-    short_link = get_link(payload['link'])
-    if short_link['owner'] != username:
-        return res(403, 'Forbidden')
+    try:
+        short_link = get_link(payload['link'])
+        if short_link['owner'] != username:
+            return res(403, 'Forbidden')
+    except Exception as e:
+        if e.args[0] == "Not Found":
+            return res(404, f'No link found for {payload["link"]}')
+        else :
+            return res(500, 'UnknownError')
 
     delete_link(payload['link'])
 

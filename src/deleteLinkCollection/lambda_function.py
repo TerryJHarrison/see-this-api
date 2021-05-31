@@ -15,57 +15,57 @@ def res(code, body):
             }
         }
 
-
-def update_link(link, redirect_url):
+def delete_collection(collection_id):
     global table
-
-    table.update_item(
-        Key={'link': link},
-        UpdateExpression='SET #U = :u',
-        ExpressionAttributeNames={"#U": "redirectUrl"},
-        ExpressionAttributeValues={":u": redirect_url}
+    response = table.delete_item(
+        Key={'id': collection_id}
     )
+    return response
 
 
-def get_link(link):
+def get_link_collection(collection_id):
     global table
 
-    response = table.get_item(Key={'link': link})
+    response = table.get_item(Key={'id': collection_id})
     if "Item" not in response:
-        pprint(f"No URL found for link {link}")
+        pprint(f"No link collection found for id {collection_id}")
         raise Exception('Not Found')
     return response['Item']
 
 
 def lambda_handler(event, context):
+    if not "headers" in event:
+        return res(400, 'AuthorizationRequired')
+    elif not "Authorization" in event['headers']:
+        return res(400, 'AuthorizationRequired')
+
     decoded = jwt.decode(event['headers']['Authorization'], options={"verify_signature": False})
     if not 'cognito:username' in decoded:
         return res(400, 'OwnerIDRequired')
     username = decoded['cognito:username']
 
     payload = json.loads(event['body'])
-    if not 'link' in payload:
-        return res(400, 'LinkRequired')
-    if not 'redirectUrl' in payload:
-        return res(400, 'RedirectURLRequired')
+    if not 'id' in payload:
+        return res(400, 'CollectionIDRequired')
 
     global table
     if not table:
         dynamodb = boto3.resource('dynamodb')
-        table = dynamodb.Table('st-short-links')
+        table = dynamodb.Table('st-link-collections')
 
     try:
-        short_link = get_link(payload['link'])
-        if short_link['owner'] != username:
+        collection = get_link_collection(payload['id'])
+        if collection['owner'] != username:
             return res(403, 'Forbidden')
     except Exception as e:
         if e.args[0] == "Not Found":
-            return res(404, f'No link found for {payload["link"]}')
+            return res(404, f'No collection found for id {payload["id"]}')
         else :
             return res(500, 'UnknownError')
 
-    update_link(payload['link'], payload['redirectUrl'])
-    return res(200, 'LinkUpdated')
+    delete_collection(payload['id'])
+
+    return res(200, 'CollectionDeleted')
 
 
 if __name__ == "__main__":
@@ -74,8 +74,7 @@ if __name__ == "__main__":
             'Authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwiY29nbml0bzp1c2VybmFtZSI6InRqaGFycmlzb24iLCJpYXQiOjE1MTYyMzkwMjJ9.psL1JmW6CxOPcfjMKvWfYQ7TYTMZIocs9q0ctDxjTsA' # tjharrisonjr
         },
         'body': json.dumps({
-            'link': 'integration-test',
-            'redirectUrl': 'https://update.com'
+            'id': 'saveTest'
         })
     }, None)
 
