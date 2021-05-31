@@ -84,7 +84,8 @@ def lambda_handler(event, context):
     except Exception as e:
         if e.args[0] == "Not Found":
             return res(404, f'No collection found for id {payload["id"]}')
-        else :
+        else:
+            pprint(e)
             return res(500, 'UnknownError')
 
     update_link_collection(payload)

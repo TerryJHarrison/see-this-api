@@ -26,7 +26,12 @@ def get_link_collection(collection_id):
 
 
 def lambda_handler(event, context):
-    payload = json.loads(event['body'])
+    if not 'pathParameters' in event:
+        return res(400, "CollectionIDRequired")
+    elif not 'id' in event['pathParameters']:
+        return res(400, "CollectionIDRequired")
+
+    payload = event['pathParameters']
     if not 'id' in payload:
         return res(400, 'CollectionIDRequired')
 
@@ -37,19 +42,20 @@ def lambda_handler(event, context):
 
     try:
         collection = get_link_collection(payload['id'])
-        return res(200, collection)
+        return res(200, json.dumps(collection))
     except Exception as e:
         if e.args[0] == "Not Found":
             return res(404, f'No collection found for id {payload["id"]}')
-        else :
+        else:
+            pprint(e)
             return res(500, 'UnknownError')
 
 
 if __name__ == "__main__":
     test_response = lambda_handler({
-        'body': json.dumps({
+        'pathParameters': {
             'id': 'test'
-        })
+        }
     }, None)
 
     pprint(test_response, indent=2)
