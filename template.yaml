@@ -71,6 +71,16 @@ Resources:
       Description: "Gets a link collection"
       Timeout: 15
       Role: arn:aws:iam::388474961170:role/lambda-admin
+  GetOwnedLinkCollectionsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: st-get-owned-link-collections
+      Runtime: python3.8
+      Handler: lambda_function.lambda_handler
+      CodeUri: src/getOwnedLinkCollections
+      Description: "Gets all link collections owned by calling user"
+      Timeout: 5
+      Role: arn:aws:iam::388474961170:role/lambda-admin
   GetOwnedShortLinksFunction:
     Type: AWS::Serverless::Function
     Properties:
