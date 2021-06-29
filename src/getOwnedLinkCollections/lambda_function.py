@@ -23,8 +23,8 @@ def get_owned_link_collections(owner):
     global table
     response = table.query(
         IndexName="owner-id-index",
-        Select="SPECIFIC_ATTRIBUTES",
-        ProjectionExpression="id,heading",
+        Select="ALL_ATTRIBUTES",
+        ProjectionExpression="id,heading,type",
         KeyConditionExpression=Key('owner').eq(owner),
     )
 
