@@ -24,7 +24,7 @@ def get_owned_link_collections(owner):
     response = table.query(
         IndexName="owner-id-index",
         Select="SPECIFIC_ATTRIBUTES",
-        ProjectionExpression="id,heading,type",
+        ProjectionExpression="id,heading,collectionType",
         KeyConditionExpression=Key('owner').eq(owner),
     )
 
