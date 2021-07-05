@@ -22,6 +22,7 @@ def res(code, body):
 def put_collection(collection):
     global table
     collection['createdAt'] = int(time.time())
+    collection['links'] = []
     item = collection
 
     response = table.put_item(

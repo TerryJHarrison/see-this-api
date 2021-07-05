@@ -26,13 +26,13 @@ def get_link_collection(collection_id):
 
 
 def lambda_handler(event, context):
-    if not 'pathParameters' in event:
+    if 'pathParameters' not in event:
         return res(400, "CollectionIDRequired")
-    elif not 'id' in event['pathParameters']:
+    elif 'id' not in event['pathParameters']:
         return res(400, "CollectionIDRequired")
 
     payload = event['pathParameters']
-    if not 'id' in payload:
+    if 'id' not in payload:
         return res(400, 'CollectionIDRequired')
 
     global table
@@ -42,6 +42,14 @@ def lambda_handler(event, context):
 
     try:
         collection = get_link_collection(payload['id'])
+        if "createdAt" in collection:
+                    collection["createdAt"] = str(collection["createdAt"])
+        if "links" in collection:
+            for link in collection['links']:
+                if "expiresAt" in link:
+                    link["expiresAt"] = str(link["expiresAt"])
+                if "clickCount" in link:
+                    link["clickCount"] = str(link["clickCount"])
         return res(200, json.dumps(collection))
     except Exception as e:
         if e.args[0] == "Not Found":
