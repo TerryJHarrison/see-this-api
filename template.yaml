@@ -91,6 +91,16 @@ Resources:
       Description: "Gets all short links owned by calling user"
       Timeout: 5
       Role: arn:aws:iam::388474961170:role/lambda-admin
+  GetUserDataFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: st-get-user-data
+      Runtime: python3.8
+      Handler: lambda_function.lambda_handler
+      CodeUri: src/getUserData
+      Description: "Gets user data for calling user"
+      Timeout: 5
+      Role: arn:aws:iam::388474961170:role/lambda-admin
   GetShortLinkStatsFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -129,6 +139,16 @@ Resources:
       Handler: lambda_function.lambda_handler
       CodeUri: src/updateLinkCollection
       Description: "Updates a link collection"
+      Timeout: 15
+      Role: arn:aws:iam::388474961170:role/lambda-admin
+  UpdateUserDataFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: st-update-user-data
+      Runtime: python3.8
+      Handler: lambda_function.lambda_handler
+      CodeUri: src/updateUserData
+      Description: "Updates a user's data"
       Timeout: 15
       Role: arn:aws:iam::388474961170:role/lambda-admin
   UpdateOwnedShortLinkFunction:

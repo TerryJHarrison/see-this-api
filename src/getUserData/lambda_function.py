@@ -11,20 +11,20 @@ random = None
 
 def res(code, body):
     return {
-            "statusCode": code,
-            'body': body,
-            'headers': {
-                'Access-Control-Allow-Origin': "*"
-            }
+        "statusCode": code,
+        'body': body,
+        'headers': {
+            'Access-Control-Allow-Origin': "*"
         }
+    }
 
 
-def get_owned_links(owner):
+def get_user_data(owner):
     global table
     response = table.query(
-        IndexName="owner-link-index",
+        IndexName="owner-index",
         Select="SPECIFIC_ATTRIBUTES",
-        ProjectionExpression="link,redirectUrl,expiresAt,clickCount",
+        ProjectionExpression="images,imgurApiKey",
         KeyConditionExpression=Key('owner').eq(owner),
     )
 
@@ -35,28 +35,23 @@ def get_owned_links(owner):
 
 
 def lambda_handler(event, context):
-    if not "headers" in event:
+    if "headers" not in event:
         return res(400, 'AuthorizationRequired')
-    elif not "Authorization" in event['headers']:
+    elif "Authorization" not in event['headers']:
         return res(400, 'AuthorizationRequired')
 
     global table
     if not table:
         dynamodb = boto3.resource('dynamodb')
-        table = dynamodb.Table('st-short-links')
+        table = dynamodb.Table('st-user-data')
 
     decoded = jwt.decode(event['headers']['Authorization'], options={"verify_signature": False})
-    if not 'cognito:username' in decoded:
+    if 'cognito:username' not in decoded:
         return res(400, 'OwnerIDRequired')
 
     try:
-        links = get_owned_links(decoded["cognito:username"])
-        for link in links:
-            if "expiresAt" in link:
-                link["expiresAt"] = str(link["expiresAt"])
-            if "clickCount" in link:
-                link["clickCount"] = str(link["clickCount"])
-        return res(200, json.dumps({'links': links}))
+        user_data = get_user_data(decoded["cognito:username"])
+        return res(200, json.dumps({'user': user_data}))
 
     except ClientError as e:
         pprint(f"${e.response['Error']['Code']} ${e.response}`")
