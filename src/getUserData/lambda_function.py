@@ -49,7 +49,7 @@ def lambda_handler(event, context):
 
     try:
         user_data = get_user_data(decoded["cognito:username"])
-        return res(200, json.dumps({'user': user_data}))
+        return res(200, json.dumps(user_data))
 
     except ClientError as e:
         pprint(f"${e.response['Error']['Code']} ${e.response}`")
