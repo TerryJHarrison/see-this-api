@@ -29,7 +29,8 @@ def get_user_data(owner):
     if 'Items' in response:
         return response['Items'][0]
     else:
-        return []
+        # Blank profile
+        return {'images': [], 'imgurApiKey': ''}
 
 
 def lambda_handler(event, context):
