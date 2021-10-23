@@ -22,8 +22,7 @@ def res(code, body):
 def get_user_data(owner):
     global table
     response = table.query(
-        Select="SPECIFIC_ATTRIBUTES",
-        ProjectionExpression="images,imgurApiKey",
+        Select="ALL_ATTRIBUTES",
         KeyConditionExpression=Key('owner').eq(owner),
     )
 
