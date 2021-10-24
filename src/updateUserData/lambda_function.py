@@ -55,14 +55,11 @@ def lambda_handler(event, context):
     decoded = jwt.decode(event['headers']['Authorization'], options={"verify_signature": False})
     if 'cognito:username' not in decoded:
         return res(400, 'OwnerIDRequired')
+
     username = decoded['cognito:username']
-
     payload = json.loads(event['body'])
-    if 'id' not in payload:
-        return res(400, 'CollectionIDRequired')
-
     update_user_data(username, payload)
-    return res(200, 'CollectionUpdated')
+    return res(200, 'UserDataUpdated')
 
 
 if __name__ == "__main__":
