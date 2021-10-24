@@ -21,7 +21,7 @@ def update_user_data(owner, user_data):
     global table
     if not table:
         dynamodb = boto3.resource('dynamodb')
-        table = dynamodb.Table('st-link-collections')
+        table = dynamodb.Table('st-user-data')
 
     update_expressions = []
     attribute_names = {}
