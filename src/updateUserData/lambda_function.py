@@ -43,6 +43,16 @@ def update_user_data(owner, user_data):
         attribute_names['#P'] = 'profileImage'
         attribute_values[':p'] = user_data['profileImage']
 
+    if 'profileImageSize' in user_data:
+        update_expressions.append('#PS = :ps')
+        attribute_names['#PS'] = 'profileImageSize'
+        attribute_values[':ps'] = user_data['profileImageSize']
+
+    if 'profileImageShape' in user_data:
+        update_expressions.append('#PSH = :psh')
+        attribute_names['#PSH'] = 'profileImageShape'
+        attribute_values[':psh'] = user_data['profileImageShape']
+
     if 'qrCodeImage' in user_data:
         update_expressions.append('#Q = :q')
         attribute_names['#Q'] = 'qrCodeImage'
