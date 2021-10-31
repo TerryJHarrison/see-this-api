@@ -38,6 +38,16 @@ def update_user_data(owner, user_data):
         attribute_names['#K'] = 'imgurApiKey'
         attribute_values[':k'] = user_data['imgurApiKey']
 
+    if 'profileImage' in user_data:
+        update_expressions.append('#P = :p')
+        attribute_names['#P'] = 'profileImage'
+        attribute_values[':p'] = user_data['profileImage']
+
+    if 'qrCodeImage' in user_data:
+        update_expressions.append('#Q = :q')
+        attribute_names['#Q'] = 'qrCodeImage'
+        attribute_values[':q'] = user_data['qrCodeImage']
+
     table.update_item(
         Key={'owner': owner},
         UpdateExpression=f"set {','.join(update_expressions)}",
