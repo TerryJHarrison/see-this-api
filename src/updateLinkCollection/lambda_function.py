@@ -6,6 +6,7 @@ from pprint import pprint
 table = None
 random = None
 
+
 def res(code, body):
     return {
             "statusCode": code,
@@ -29,7 +30,37 @@ def update_link_collection(collection):
         attribute_names['#H'] = 'heading'
         attribute_values[':h'] = collection['heading']
 
+    if 'headerAlign' in collection:
+        update_expressions.append('#HA = :ha')
+        attribute_names['#HA'] = 'headerAlign'
+        attribute_values[':ha'] = collection['headerAlign']
+
+    if 'headerTextColor' in collection:
+        update_expressions.append('#HTC = :htc')
+        attribute_names['#HTC'] = 'headerTextColor'
+        attribute_values[':htc'] = collection['headerTextColor']
+
+    if 'headerTextSize' in collection:
+        update_expressions.append('#HTS = :hts')
+        attribute_names['#HTS'] = 'headerTextSize'
+        attribute_values[':hts'] = collection['headerTextSize']
+
     if 'subheading' in collection:
+        update_expressions.append('#S = :s')
+        attribute_names['#S'] = 'subheading'
+        attribute_values[':s'] = collection['subheading']
+
+    if 'subheaderAlign' in collection:
+        update_expressions.append('#S = :s')
+        attribute_names['#S'] = 'subheading'
+        attribute_values[':s'] = collection['subheading']
+
+    if 'subheaderTextColor' in collection:
+        update_expressions.append('#S = :s')
+        attribute_names['#S'] = 'subheading'
+        attribute_values[':s'] = collection['subheading']
+
+    if 'subheaderTextSize' in collection:
         update_expressions.append('#S = :s')
         attribute_names['#S'] = 'subheading'
         attribute_values[':s'] = collection['subheading']
@@ -58,18 +89,18 @@ def get_link_collection(collection_id):
 
 
 def lambda_handler(event, context):
-    if not "headers" in event:
+    if "headers" not in event:
         return res(400, 'AuthorizationRequired')
-    elif not "Authorization" in event['headers']:
+    elif "Authorization" not in event['headers']:
         return res(400, 'AuthorizationRequired')
 
     decoded = jwt.decode(event['headers']['Authorization'], options={"verify_signature": False})
-    if not 'cognito:username' in decoded:
+    if 'cognito:username' not in decoded:
         return res(400, 'OwnerIDRequired')
     username = decoded['cognito:username']
 
     payload = json.loads(event['body'])
-    if not 'id' in payload:
+    if 'id' not in payload:
         return res(400, 'CollectionIDRequired')
 
     global table
@@ -100,8 +131,8 @@ if __name__ == "__main__":
         'body': json.dumps({
             'heading': 'Updated 2x',
             'id': 'test',
-            'links': [ {'redirectUrl': 'https://gardening.monster', 'text': 'Urban Gardening Blog'},
-                       {'redirectUrl': 'https://moderwoodworking.shop', 'text': 'Family owned and operated woodworking shop in North GA'}],
+            'links': [{'redirectUrl': 'https://gardening.monster', 'text': 'Urban Gardening Blog'},
+                    {'redirectUrl': 'https://moderwoodworking.shop', 'text': 'Family owned and operated woodworking shop in North GA'}],
             'subheading': 'Updated together'
         })
     }, None)
