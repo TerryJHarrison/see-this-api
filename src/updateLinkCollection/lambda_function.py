@@ -52,18 +52,18 @@ def update_link_collection(collection):
 
     if 'subheaderAlign' in collection:
         update_expressions.append('#S = :s')
-        attribute_names['#S'] = 'subheading'
-        attribute_values[':s'] = collection['subheading']
+        attribute_names['#SA'] = 'subheaderAlign'
+        attribute_values[':sa'] = collection['subheaderAlign']
 
     if 'subheaderTextColor' in collection:
         update_expressions.append('#S = :s')
-        attribute_names['#S'] = 'subheading'
-        attribute_values[':s'] = collection['subheading']
+        attribute_names['#STC'] = 'subheaderTextColor'
+        attribute_values[':stc'] = collection['subheaderTextColor']
 
     if 'subheaderTextSize' in collection:
         update_expressions.append('#S = :s')
-        attribute_names['#S'] = 'subheading'
-        attribute_values[':s'] = collection['subheading']
+        attribute_names['#STS'] = 'subheaderTextSize'
+        attribute_values[':sts'] = collection['subheaderTextSize']
 
     if 'links' in collection:
         update_expressions.append('#L = :l')
