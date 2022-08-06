@@ -26,7 +26,7 @@ def put_link(link, redirect_url):
         'redirectUrl': redirect_url,
         'clickCount': 0,
         'createdAt': int(time.time()),
-        'expiresAt': int(time.time()) + 604800 # 7 days
+        'expiresAt': int(time.time()) + 1209600 # 14 days
     }
 
     response = table.put_item(
