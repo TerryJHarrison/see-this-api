@@ -192,11 +192,9 @@ out/
 # mpeltonen/sbt-idea plugin
 .idea_modules/
 
+
 # JIRA plugin
 atlassian-ide-plugin.xml
-
-# Cursive Clojure plugin
-.idea/replstate.xml
 
 # Crashlytics plugin (for Android Studio and IntelliJ)
 com_crashlytics_export_strings.xml
@@ -208,3 +206,6 @@ fabric.properties
 # AWS SAM
 .aws-sam/
 packaged.yaml
+
+# Jekyll Builds
+docs/_site

@@ -1,0 +1,32 @@
+<link href='/swagger-ui/index.css' media='screen' rel='stylesheet' type='text/css'/>
+<link href='/swagger-ui/swagger-ui.css' media='screen' rel='stylesheet' type='text/css'/>
+<script src='/swagger-ui/swagger-ui-bundle.js' type='text/javascript'></script>
+
+<script type="text/javascript">
+
+    function loadSwaggerUi(url, domId) {
+        var ui = new SwaggerUi({
+            url: url,
+            dom_id: domId,
+            supportedSubmitMethods: [],
+            onComplete: function(swaggerApi, swaggerUi){
+                $('pre code').each(function(i, e) {
+                    hljs.highlightBlock(e)
+                });
+            },
+            onFailure: function(data) {
+                log("Unable to Load SwaggerUI");
+            },
+            docExpansion: "list",
+            sorter : "alpha"
+        });
+        ui.load();
+    }
+
+    function log() {
+        if ('console' in window) {
+            console.log.apply(console, arguments);
+        }
+    }
+
+</script>
