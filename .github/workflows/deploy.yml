@@ -7,6 +7,8 @@ on:
   push:
     branches:
       - main
+    ignore_paths:
+      - docs
 
 jobs:
   build-and-deploy:
@@ -26,3 +28,6 @@ jobs:
           sam build --use-container
           sam package --s3-bucket deploy.harrison.enterprises --output-template-file ./packaged.yaml --region us-east-1
           sam deploy --template-file ./packaged.yaml --stack-name "see-this-api" --capabilities CAPABILITY_IAM --region us-east-1
+
+  deploy-doc-site:
+    uses: ./.github/workflows/open-api-docs.yml

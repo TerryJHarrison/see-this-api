@@ -1,6 +1,11 @@
 name: OpenAPI Site
 
 on:
+  push:
+    branches:
+      - main
+    ignore_paths:
+      - src
   workflow_dispatch:
   workflow_call:
 
