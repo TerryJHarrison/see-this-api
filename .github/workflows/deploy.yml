@@ -1,0 +1,28 @@
+name: Deploy
+
+permissions:
+  id-token: write
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: arn:aws:iam::388474961170:role/github-actions-oidc
+          aws-region: us-east-1
+
+      - name: Build and deploy
+        run: |
+          sam build --use-container
+          sam package --s3-bucket deploy.harrison.enterprises --output-template-file ./packaged.yaml --region us-east-1
+          sam deploy --template-file ./packaged.yaml --stack-name "see-this-api" --capabilities CAPABILITY_IAM --region us-east-1

@@ -5,7 +5,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: st-close-account
-      Runtime: python3.8
+      Runtime: python3.9
       Handler: lambda_function.lambda_handler
       CodeUri: src/closeAccount
       Description: "Closes a user's account"
@@ -15,7 +15,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: st-create-link-collection
-      Runtime: python3.8
+      Runtime: python3.9
       Handler: lambda_function.lambda_handler
       CodeUri: src/createLinkCollection
       Description: "Creates a new link collection"
@@ -25,7 +25,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: st-create-owned-short-link
-      Runtime: python3.8
+      Runtime: python3.9
       Handler: lambda_function.lambda_handler
       CodeUri: src/createOwnedShortLink
       Description: "Creates a new user-owned short link"
@@ -35,7 +35,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: st-create-short-link
-      Runtime: python3.8
+      Runtime: python3.9
       Handler: lambda_function.lambda_handler
       CodeUri: src/createShortLink
       Description: "Creates a new short link"
@@ -45,7 +45,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: st-delete-link-collection
-      Runtime: python3.8
+      Runtime: python3.9
       Handler: lambda_function.lambda_handler
       CodeUri: src/deleteLinkCollection
       Description: "Deletes a link collection"
@@ -55,7 +55,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: st-delete-owned-short-link
-      Runtime: python3.8
+      Runtime: python3.9
       Handler: lambda_function.lambda_handler
       CodeUri: src/deleteOwnedShortLink
       Description: "Deletes a user-owned short link"
@@ -65,7 +65,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: st-get-link-collection
-      Runtime: python3.8
+      Runtime: python3.9
       Handler: lambda_function.lambda_handler
       CodeUri: src/getLinkCollection
       Description: "Gets a link collection"
@@ -75,7 +75,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: st-get-owned-link-collections
-      Runtime: python3.8
+      Runtime: python3.9
       Handler: lambda_function.lambda_handler
       CodeUri: src/getOwnedLinkCollections
       Description: "Gets all link collections owned by calling user"
@@ -85,7 +85,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: st-get-owned-short-links
-      Runtime: python3.8
+      Runtime: python3.9
       Handler: lambda_function.lambda_handler
       CodeUri: src/getOwnedShortLinks
       Description: "Gets all short links owned by calling user"
@@ -95,7 +95,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: st-get-user-data
-      Runtime: python3.8
+      Runtime: python3.9
       Handler: lambda_function.lambda_handler
       CodeUri: src/getUserData
       Description: "Gets user data for calling user"
@@ -105,7 +105,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: st-get-short-link-stats
-      Runtime: python3.8
+      Runtime: python3.9
       Handler: lambda_function.lambda_handler
       CodeUri: src/getShortLinkStats
       Description: "Calculates and returns aggregate short links stats"
@@ -115,7 +115,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: st-short-link-redirect
-      Runtime: python3.8
+      Runtime: python3.9
       Handler: lambda_function.lambda_handler
       CodeUri: src/shortLinkRedirect
       Description: "Redirects request based off short link from URL path"
@@ -125,7 +125,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: st-update-link-click-count
-      Runtime: python3.8
+      Runtime: python3.9
       Handler: lambda_function.lambda_handler
       CodeUri: src/updateLinkClickCount
       Description: "Increments the click count for a collection's link"
@@ -135,7 +135,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: st-update-link-collection
-      Runtime: python3.8
+      Runtime: python3.9
       Handler: lambda_function.lambda_handler
       CodeUri: src/updateLinkCollection
       Description: "Updates a link collection"
@@ -145,7 +145,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: st-update-user-data
-      Runtime: python3.8
+      Runtime: python3.9
       Handler: lambda_function.lambda_handler
       CodeUri: src/updateUserData
       Description: "Updates a user's data"
@@ -155,7 +155,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: st-update-owned-short-link
-      Runtime: python3.8
+      Runtime: python3.9
       Handler: lambda_function.lambda_handler
       CodeUri: src/updateOwnedShortLink
       Description: "Updates a user-owned short link's redirect URL"
