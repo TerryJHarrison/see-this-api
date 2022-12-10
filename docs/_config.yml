@@ -6,7 +6,7 @@ url: "https://seeth.is"
 logo: "https://seeth.is/logo192.png"
 
 theme: just-the-docs
-plugins:
+gems:
   - jekyll-feed
   - jekyll-default-layout
   - just-the-docs
