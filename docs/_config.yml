@@ -7,3 +7,4 @@ url: "https://api.seeth.is"
 theme: just-the-docs
 plugins:
   - jekyll-feed
+  - jekyll-default-layout
