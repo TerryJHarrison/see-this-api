@@ -30,4 +30,5 @@ jobs:
           sam deploy --template-file ./packaged.yaml --stack-name "see-this-api" --capabilities CAPABILITY_IAM --region us-east-1
 
   deploy-doc-site:
+    needs: build-and-deploy
     uses: ./.github/workflows/open-api-docs.yml
