@@ -1,10 +1,22 @@
-title: "SeeTh.is API"
+title: "SeeTh.is"
 email: "tjharrisonjr@gmail.com"
 description: "Short-links and Link Collections"
 baseurl: ""
-url: "https://api.seeth.is"
+url: "https://seeth.is"
+logo: "https://seeth.is/logo192.png"
 
 theme: just-the-docs
 plugins:
   - jekyll-feed
   - jekyll-default-layout
+mermaid:
+  # Available versions at https://cdn.jsdelivr.net/npm/mermaid/
+  version: "9.2.2"
+
+aux_links:
+  "SeeTh.is":
+    - "https://seeth.is"
+
+nav_external_links:
+  - title: "OpenAPI Specifications"
+    url: "https://terryjharrison.github.io/see-this-api/swagger-ui"
