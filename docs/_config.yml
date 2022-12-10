@@ -4,6 +4,6 @@ description: "Short-links and Link Collections"
 baseurl: ""
 url: "https://api.seeth.is"
 
-theme: minima
+theme: just-the-docs
 plugins:
   - jekyll-feed
