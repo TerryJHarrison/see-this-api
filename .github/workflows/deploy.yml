@@ -30,7 +30,7 @@ jobs:
         run: |
           sam build --use-container
           sam package --s3-bucket deploy.harrison.enterprises --output-template-file ./packaged.yaml --region us-east-1
-          sam deploy --template-file ./packaged.yaml --stack-name "see-this-api" --capabilities CAPABILITY_IAM --region us-east-1
+          sam deploy --template-file ./packaged.yaml --stack-name "see-this-api" --capabilities CAPABILITY_IAM --region us-east-1 --no-fail-on-empty-changeset
 
   deploy-doc-site:
     needs: build-and-deploy
