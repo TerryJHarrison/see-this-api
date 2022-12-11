@@ -5,3 +5,9 @@
 ### Documentation
 - Open API specifications are hosted on [GitHub Pages](https://terryjharrison.github.io/see-this-api/)
 - Run the doc site locally from the `docs` directory with `bundle exec jekyll serve`
+
+#### Setup
+Running locally currently requires a few steps to work properly:
+- Update the `docs/swagger-ui/swagger-initializer.js` file - set `isLocal = true` on line 6
+- Run `git update-index --assume-unchanged docs/swagger-ui/swagger-initializer.js` from the project root directory
+- If you need to push updates to this file then undo **both** of these changes
