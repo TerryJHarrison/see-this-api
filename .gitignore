@@ -209,3 +209,6 @@ packaged.yaml
 
 # Jekyll Builds
 docs/_site
+
+# Temp fix for local builds, prevent updates for env switch
+docs/swagger-ui/swagger-initializer.js
