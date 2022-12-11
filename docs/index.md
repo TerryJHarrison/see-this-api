@@ -9,8 +9,7 @@ nav_order: 1
 - [OpenAPI Specifications](./openapi.json)
 - All REST resources follow the same format:
   - `GET` requests to retrieve data
-  - `POST` requests to create new unowned entries
-    - Requests do not require authentication 
+  - `POST` requests to create new unowned entries (no authentication required)
   - `PUT` requests to create new owned entries
   - `PATCH` requests to update existing entries
   - `DELETE` requests to remove data
