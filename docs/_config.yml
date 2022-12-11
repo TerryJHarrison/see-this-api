@@ -6,9 +6,10 @@ url: "https://terryjharrison.github.io"
 logo: "https://seeth.is/logo192.png"
 
 theme: just-the-docs
+plugins:
+  - jekyll-mermaid
 mermaid:
-  # Available versions at https://cdn.jsdelivr.net/npm/mermaid/
-  version: "9.1.3"
+  src: "https://unpkg.com/mermaid@9.2.2/dist/mermaid.js"
 
 aux_links:
   "SeeTh.is":

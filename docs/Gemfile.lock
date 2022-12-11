@@ -30,6 +30,7 @@ GEM
       safe_yaml (~> 1.0)
       terminal-table (>= 1.8, < 4.0)
       webrick (~> 1.7)
+    jekyll-mermaid (1.0.0)
     jekyll-sass-converter (2.2.0)
       sassc (> 2.0.1, < 3.0)
     jekyll-seo-tag (2.8.0)
@@ -73,6 +74,7 @@ PLATFORMS
 DEPENDENCIES
   http_parser.rb (~> 0.6.0)
   jekyll (~> 4.3.1)
+  jekyll-mermaid
   just-the-docs
   tzinfo (>= 1, < 3)
   tzinfo-data

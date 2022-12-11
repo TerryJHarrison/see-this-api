@@ -7,9 +7,9 @@ nav_order: 1
 # API Overview
 - [Swagger UI](https://terryjharrison.github.io/see-this-api/swagger-ui/)
 - All REST resources follow the same format:
-  - `GET` to retrieve data
-  - `POST` to create new unowned entries
-    - Does not require authentication 
-  - `PUT` to create new owned entries
-  - `PATCH` to update existing entries
-  - `DELETE` to remove data
+  - `GET` requests to retrieve data
+  - `POST` requests to create new unowned entries
+    - Requests do not require authentication 
+  - `PUT` requests to create new owned entries
+  - `PATCH` requests to update existing entries
+  - `DELETE` requests to remove data
