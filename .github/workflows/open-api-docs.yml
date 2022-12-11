@@ -46,9 +46,8 @@ jobs:
             ${{ runner.os }}-gems-
 
       - name: Jekyll Build
-        with:
-          path: docs
         run: |
+          cd docs
           bundle install
           bundle exec jekyll build --baseurl ${{ steps.pages.outputs.base_path }}
 
