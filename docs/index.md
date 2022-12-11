@@ -5,7 +5,8 @@ description: "Short-links and Link Collections"
 nav_order: 1
 ---
 # API Overview
-- [Swagger UI](https://terryjharrison.github.io/see-this-api/swagger-ui/)
+- [Swagger UI](./swagger-ui/)
+- [OpenAPI Specifications](./openapi.json)
 - All REST resources follow the same format:
   - `GET` requests to retrieve data
   - `POST` requests to create new unowned entries
