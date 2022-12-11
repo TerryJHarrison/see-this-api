@@ -11,6 +11,7 @@ on:
       - main
     paths-ignore:
       - docs/**
+      - .github/workflows/open-api-docs.yml
 
 jobs:
   build-and-deploy:

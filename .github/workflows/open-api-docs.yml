@@ -6,6 +6,7 @@ on:
       - main
     paths-ignore:
       - src/**
+      - .github/workflows/deploy.yml
   workflow_dispatch:
   workflow_call:
 
