@@ -2,7 +2,7 @@ title: "SeeTh.is"
 email: "tjharrisonjr@gmail.com"
 description: "Short-links and Link Collections"
 baseurl: ""
-url: "https://seeth.is"
+url: "https://terryjharrison.github.io/see-this-api"
 logo: "https://seeth.is/logo192.png"
 
 theme: just-the-docs
