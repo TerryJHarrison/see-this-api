@@ -7,7 +7,6 @@ logo: "https://seeth.is/logo192.png"
 
 theme: just-the-docs
 plugins:
-  - jekyll-feed
   - jekyll-default-layout
   - just-the-docs
 mermaid:
