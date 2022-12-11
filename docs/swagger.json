@@ -112,7 +112,7 @@
       },
       "patch": {
         "operationId": "updateCollection",
-        "summary": "Update a link collection",
+        "summary": "Update an existing link collection",
         "tags": ["Collections"],
         "responses": {
           "200": {
@@ -145,7 +145,7 @@
       },
       "put": {
         "operationId": "putCollection",
-        "summary": "Put a link collection",
+        "summary": "Create a new link collection",
         "tags": ["Collections"],
         "responses": {
           "200": {
@@ -250,7 +250,7 @@
     "/links": {
       "delete": {
         "operationId": "deleteLink",
-        "summary": "Delete a short-link",
+        "summary": "Delete a user-owned short-link",
         "tags": ["Links"],
         "responses": {
           "200": {
@@ -316,7 +316,7 @@
       },
       "patch": {
         "operationId": "patchLink",
-        "summary": "Update a short-link",
+        "summary": "Update an existing user-owned short-link",
         "tags": ["Links"],
         "responses": {
           "200": {
@@ -349,7 +349,7 @@
       },
       "post": {
         "operationId": "postLink",
-        "summary": "Post a short-link",
+        "summary": "Create a new unowned short-link",
         "tags": ["Links"],
         "responses": {
           "200": {
@@ -382,7 +382,7 @@
       },
       "put": {
         "operationId": "putLink",
-        "summary": "Put a short-link",
+        "summary": "Create a new user-owned short-link",
         "tags": ["Links"],
         "responses": {
           "200": {
