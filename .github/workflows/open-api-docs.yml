@@ -50,6 +50,9 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
+      - name: Set Build Directory
+        run: |
+          cd docs
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v1
