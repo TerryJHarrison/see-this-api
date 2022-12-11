@@ -29,13 +29,12 @@ jobs:
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.0'
+          working-directory: docs
+          bundler-cache: true
 
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v1
-        with:
-          path: docs
 
       - name: Restore Cache
         uses: actions/cache@v2
@@ -47,14 +46,12 @@ jobs:
 
       - name: Jekyll Build
         run: |
-          cd docs
-          bundle install
           bundle exec jekyll build --baseurl ${{ steps.pages.outputs.base_path }}
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
-          path: docs
+          path: docs/_site
 
   deploy:
     environment:
@@ -66,5 +63,3 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v1
-        with:
-          path: docs
