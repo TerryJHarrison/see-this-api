@@ -36,15 +36,8 @@ jobs:
         id: pages
         uses: actions/configure-pages@v1
 
-      - name: Restore Cache
-        uses: actions/cache@v2
-        with:
-          path: docs/vendor/bundle
-          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile') }}
-          restore-keys: |
-            ${{ runner.os }}-gems-
-
       - name: Jekyll Build
+        working-directory: docs
         run: |
           bundle exec jekyll build --baseurl ${{ steps.pages.outputs.base_path }}
 
