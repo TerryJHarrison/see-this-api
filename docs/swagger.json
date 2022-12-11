@@ -212,7 +212,7 @@
         }
       }
     },
-    "/collections/{id}/{linkIndex}": {
+    "/collections/{id}/link/{linkIndex}": {
           "patch": {
             "operationId": "updateCollectionLink",
             "summary": "Update a collection's link by index",
