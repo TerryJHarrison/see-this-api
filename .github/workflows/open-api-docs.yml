@@ -29,8 +29,6 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.0'
-          bundler-cache: true
-          cache-version: 0 # Increment to re-download cached gems
 
       - name: Setup Pages
         id: pages
@@ -39,6 +37,7 @@ jobs:
       - name: Jekyll Build
         run: |
           cd docs
+          bundle install
           bundle exec jekyll build --baseurl ${{ steps.pages.outputs.base_path }}
 
       - name: Upload artifact
