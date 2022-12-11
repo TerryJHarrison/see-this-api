@@ -14,7 +14,3 @@ mermaid:
 aux_links:
   "SeeTh.is":
     - "https://seeth.is"
-
-nav_external_links:
-  - title: "OpenAPI Specifications"
-    url: "https://terryjharrison.github.io/see-this-api/swagger-ui"
