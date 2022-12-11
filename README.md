@@ -8,6 +8,9 @@
 
 #### Setup
 Running locally currently requires a few steps to work properly:
+- Requires [Ruby 3+](https://mac.install.guide/ruby/13.html) and [Jekyll](https://jekyllrb.com/docs/step-by-step/01-setup/)
+- Run `bundle install` from the docs directory
 - Update the `docs/swagger-ui/swagger-initializer.js` file - set `isLocal = true` on line 6
 - Run `git update-index --assume-unchanged docs/swagger-ui/swagger-initializer.js` from the project root directory
-- If you need to push updates to this file then undo **both** of these changes
+  - If you need to push updates to this file then undo **both** of these changes
+- Run `bundle exec jekyll serve` from the docs directory to run the documentation site locally
