@@ -4,7 +4,7 @@ window.onload = function() {
     // Set path to swagger file base off environment
     // TODO: more elegant solution
     const isLocal = false;
-    const url = isLocal ? "/swagger.json" : "/see-this-api/swagger.json";
+    const url = isLocal ? "/openapi.json" : "/see-this-api/openapi.json";
 
     // the following lines will be replaced by docker/configurator, when it runs in a docker-container
     window.ui = SwaggerUIBundle({
