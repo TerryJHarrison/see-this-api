@@ -32,7 +32,7 @@ def redirect(url):
 def find_url(link):
     global table
 
-    response = table.get_item(Key={'link': link})
+    response = table.get_item(Key={'link': link.lower()})
     if "Item" not in response:
         pprint(f"No URL found for link {link}")
         raise Exception('Not Found')
@@ -74,6 +74,7 @@ def lambda_handler(event, context):
     except Exception as e:
         pprint(e)
         return not_found
+
 
 if __name__ == "__main__":
     test_response = lambda_handler({

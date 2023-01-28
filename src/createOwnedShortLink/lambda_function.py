@@ -23,7 +23,7 @@ def res(code, body):
 def put_link(link, redirect_url, owner):
     global table
     item = {
-        'link': link,
+        'link': link.lower(),
         'redirectUrl': redirect_url,
         'clickCount': 0,
         'owner': owner,
