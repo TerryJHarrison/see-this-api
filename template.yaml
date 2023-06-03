@@ -11,8 +11,8 @@ Resources:
         - email
       LambdaConfig:
         DefineAuthChallenge: !GetAtt DefineAuthChallengeFunction.Arn
-        CreateAuthChallenge: !GetAtt DefineAuthChallengeFunction.Arn
-        VerifyAuthChallengeResponse: !GetAtt DefineAuthChallengeFunction.Arn
+        CreateAuthChallenge: !GetAtt CreateAuthChallengeFunction.Arn
+        VerifyAuthChallengeResponse: !GetAtt VerifyAuthChallengeFunction.Arn
       Schema:
         - AttributeDataType: String
           Name: publicKeyCred
@@ -235,7 +235,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: st-verify-auth-challenge
-      CodeUri: src/js/VerifyAuthChallengeFunction
+      CodeUri: src/js/verifyAuthChallenge
       Handler: index.handler
       Runtime: nodejs12.x
       Timeout: 10
