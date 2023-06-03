@@ -7,6 +7,7 @@ on:
     paths-ignore:
       - src/**
       - .github/workflows/deploy.yml
+      - .github/dependabot.yml
   workflow_dispatch:
   workflow_call:
 
