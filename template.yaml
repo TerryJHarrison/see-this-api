@@ -48,6 +48,9 @@ Resources:
       Description: "Closes a user's account"
       Timeout: 5
       Role: arn:aws:iam::388474961170:role/lambda-admin
+      Environment:
+        Variables:
+          COGNITO_USER_POOL_ID: !Ref UserPool
   CreateLinkCollectionFunction:
     Type: AWS::Serverless::Function
     Properties:

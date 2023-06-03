@@ -1,3 +1,4 @@
+import os
 import boto3
 import jwt
 from botocore.exceptions import ClientError
@@ -32,7 +33,7 @@ def lambda_handler(event, context):
 
     try:
         cognito.admin_delete_user(
-            UserPoolId='us-east-1_sxLaqd27l', #TODO use env variable supplied via sam template
+            UserPoolId=os.environ['COGNITO_USER_POOL_ID'],
             Username=decoded['cognito:username']
         )
 
