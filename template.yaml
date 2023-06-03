@@ -10,9 +10,9 @@ Resources:
       AutoVerifiedAttributes:
         - email
       LambdaConfig:
-        DefineAuthChallenge: !GetAtt DefineAuthChallenge.Arn
-        CreateAuthChallenge: !GetAtt CreateAuthChallenge.Arn
-        VerifyAuthChallengeResponse: !GetAtt VerifyAuthChallenge.Arn
+        DefineAuthChallenge: !GetAtt DefineAuthChallengeFunction.Arn
+        CreateAuthChallenge: !GetAtt DefineAuthChallengeFunction.Arn
+        VerifyAuthChallengeResponse: !GetAtt DefineAuthChallengeFunction.Arn
       Schema:
         - AttributeDataType: String
           Name: publicKeyCred
