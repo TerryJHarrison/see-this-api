@@ -1,0 +1,10 @@
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/src/js/"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "python"
+    directory: "/src/python/"
+    schedule:
+      interval: "daily"

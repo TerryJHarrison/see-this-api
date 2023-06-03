@@ -1,0 +1,10 @@
+{
+  "name": "create-auth-challenge",
+  "version": "1.0.0",
+  "dependencies": {
+    "crypto-js": "latest"
+  },
+  "engines": {
+    "node": "12.x"
+  }
+}

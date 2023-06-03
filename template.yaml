@@ -1,13 +1,50 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Transform: "AWS::Serverless-2016-10-31"
 Resources:
+  UserPool:
+    Type: AWS::Cognito::UserPool
+    Properties:
+      AdminCreateUserConfig:
+        AllowAdminCreateUserOnly: false
+      UserPoolName: st-user-pool
+      AutoVerifiedAttributes:
+        - email
+      LambdaConfig:
+        DefineAuthChallenge: !GetAtt DefineAuthChallenge.Arn
+        CreateAuthChallenge: !GetAtt CreateAuthChallenge.Arn
+        VerifyAuthChallengeResponse: !GetAtt VerifyAuthChallenge.Arn
+      Schema:
+        - AttributeDataType: String
+          Name: publicKeyCred
+          Mutable: true
+          StringAttributeConstraints:
+            MaxLength: "1024"
+
+  UserPoolWebClient:
+    Type: AWS::Cognito::UserPoolClient
+    Properties:
+      ClientName: web-client
+      GenerateSecret: false
+      UserPoolId: !Ref UserPool
+      ExplicitAuthFlows:
+        - ALLOW_CUSTOM_AUTH
+        - ALLOW_REFRESH_TOKEN_AUTH
+        - ALLOW_USER_SRP_AUTH
+      WriteAttributes:
+        - custom:publicKeyCred
+        - email
+        - name
+      ReadAttributes:
+        - email
+        - name
+
   CloseAccountFunction:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: st-close-account
       Runtime: python3.9
       Handler: lambda_function.lambda_handler
-      CodeUri: src/closeAccount
+      CodeUri: src/python/closeAccount
       Description: "Closes a user's account"
       Timeout: 5
       Role: arn:aws:iam::388474961170:role/lambda-admin
@@ -17,7 +54,7 @@ Resources:
       FunctionName: st-create-link-collection
       Runtime: python3.9
       Handler: lambda_function.lambda_handler
-      CodeUri: src/createLinkCollection
+      CodeUri: src/python/createLinkCollection
       Description: "Creates a new link collection"
       Timeout: 15
       Role: arn:aws:iam::388474961170:role/lambda-admin
@@ -27,7 +64,7 @@ Resources:
       FunctionName: st-create-owned-short-link
       Runtime: python3.9
       Handler: lambda_function.lambda_handler
-      CodeUri: src/createOwnedShortLink
+      CodeUri: src/python/createOwnedShortLink
       Description: "Creates a new user-owned short link"
       Timeout: 15
       Role: arn:aws:iam::388474961170:role/lambda-admin
@@ -37,7 +74,7 @@ Resources:
       FunctionName: st-create-short-link
       Runtime: python3.9
       Handler: lambda_function.lambda_handler
-      CodeUri: src/createShortLink
+      CodeUri: src/python/createShortLink
       Description: "Creates a new short link"
       Timeout: 15
       Role: arn:aws:iam::388474961170:role/lambda-admin
@@ -47,7 +84,7 @@ Resources:
       FunctionName: st-delete-link-collection
       Runtime: python3.9
       Handler: lambda_function.lambda_handler
-      CodeUri: src/deleteLinkCollection
+      CodeUri: src/python/deleteLinkCollection
       Description: "Deletes a link collection"
       Timeout: 15
       Role: arn:aws:iam::388474961170:role/lambda-admin
@@ -57,7 +94,7 @@ Resources:
       FunctionName: st-delete-owned-short-link
       Runtime: python3.9
       Handler: lambda_function.lambda_handler
-      CodeUri: src/deleteOwnedShortLink
+      CodeUri: src/python/deleteOwnedShortLink
       Description: "Deletes a user-owned short link"
       Timeout: 15
       Role: arn:aws:iam::388474961170:role/lambda-admin
@@ -67,7 +104,7 @@ Resources:
       FunctionName: st-get-link-collection
       Runtime: python3.9
       Handler: lambda_function.lambda_handler
-      CodeUri: src/getLinkCollection
+      CodeUri: src/python/getLinkCollection
       Description: "Gets a link collection"
       Timeout: 15
       Role: arn:aws:iam::388474961170:role/lambda-admin
@@ -77,7 +114,7 @@ Resources:
       FunctionName: st-get-owned-link-collections
       Runtime: python3.9
       Handler: lambda_function.lambda_handler
-      CodeUri: src/getOwnedLinkCollections
+      CodeUri: src/python/getOwnedLinkCollections
       Description: "Gets all link collections owned by calling user"
       Timeout: 5
       Role: arn:aws:iam::388474961170:role/lambda-admin
@@ -87,7 +124,7 @@ Resources:
       FunctionName: st-get-owned-short-links
       Runtime: python3.9
       Handler: lambda_function.lambda_handler
-      CodeUri: src/getOwnedShortLinks
+      CodeUri: src/python/getOwnedShortLinks
       Description: "Gets all short links owned by calling user"
       Timeout: 5
       Role: arn:aws:iam::388474961170:role/lambda-admin
@@ -97,7 +134,7 @@ Resources:
       FunctionName: st-get-user-data
       Runtime: python3.9
       Handler: lambda_function.lambda_handler
-      CodeUri: src/getUserData
+      CodeUri: src/python/getUserData
       Description: "Gets user data for calling user"
       Timeout: 5
       Role: arn:aws:iam::388474961170:role/lambda-admin
@@ -107,7 +144,7 @@ Resources:
       FunctionName: st-get-short-link-stats
       Runtime: python3.9
       Handler: lambda_function.lambda_handler
-      CodeUri: src/getShortLinkStats
+      CodeUri: src/python/getShortLinkStats
       Description: "Calculates and returns aggregate short links stats"
       Timeout: 15
       Role: arn:aws:iam::388474961170:role/lambda-admin
@@ -117,7 +154,7 @@ Resources:
       FunctionName: st-short-link-redirect
       Runtime: python3.9
       Handler: lambda_function.lambda_handler
-      CodeUri: src/shortLinkRedirect
+      CodeUri: src/python/shortLinkRedirect
       Description: "Redirects request based off short link from URL path"
       Timeout: 5
       Role: arn:aws:iam::388474961170:role/lambda-admin
@@ -127,7 +164,7 @@ Resources:
       FunctionName: st-update-link-click-count
       Runtime: python3.9
       Handler: lambda_function.lambda_handler
-      CodeUri: src/updateLinkClickCount
+      CodeUri: src/python/updateLinkClickCount
       Description: "Increments the click count for a collection's link"
       Timeout: 5
       Role: arn:aws:iam::388474961170:role/lambda-admin
@@ -137,7 +174,7 @@ Resources:
       FunctionName: st-update-link-collection
       Runtime: python3.9
       Handler: lambda_function.lambda_handler
-      CodeUri: src/updateLinkCollection
+      CodeUri: src/python/updateLinkCollection
       Description: "Updates a link collection"
       Timeout: 15
       Role: arn:aws:iam::388474961170:role/lambda-admin
@@ -147,7 +184,7 @@ Resources:
       FunctionName: st-update-user-data
       Runtime: python3.9
       Handler: lambda_function.lambda_handler
-      CodeUri: src/updateUserData
+      CodeUri: src/python/updateUserData
       Description: "Updates a user's data"
       Timeout: 15
       Role: arn:aws:iam::388474961170:role/lambda-admin
@@ -157,7 +194,55 @@ Resources:
       FunctionName: st-update-owned-short-link
       Runtime: python3.9
       Handler: lambda_function.lambda_handler
-      CodeUri: src/updateOwnedShortLink
+      CodeUri: src/python/updateOwnedShortLink
       Description: "Updates a user-owned short link's redirect URL"
       Timeout: 15
       Role: arn:aws:iam::388474961170:role/lambda-admin
+
+  DefineAuthChallengeFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: st-define-auth-challenge
+      CodeUri: src/js/defineAuthChallenge
+      Handler: index.handler
+      Runtime: nodejs12.x
+      Timeout: 10
+  DefineAuthChallengePermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !GetAtt DefineAuthChallengeFunction.Arn
+      Principal: cognito-idp.amazonaws.com
+      Action: lambda:InvokeFunction
+      SourceArn: !GetAtt UserPool.Arn
+
+  CreateAuthChallengeFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: st-create-auth-challenge
+      CodeUri: src/js/createAuthChallenge
+      Handler: index.handler
+      Runtime: nodejs12.x
+      Timeout: 10
+  CreateAuthChallengePermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !GetAtt CreateAuthChallengeFunction.Arn
+      Principal: cognito-idp.amazonaws.com
+      Action: lambda:InvokeFunction
+      SourceArn: !GetAtt UserPool.Arn
+
+  VerifyAuthChallengeFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: st-verify-auth-challenge
+      CodeUri: src/js/VerifyAuthChallengeFunction
+      Handler: index.handler
+      Runtime: nodejs12.x
+      Timeout: 10
+  VerifyAuthChallengePermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !GetAtt VerifyAuthChallenge.Arn
+      Principal: cognito-idp.amazonaws.com
+      Action: lambda:InvokeFunction
+      SourceArn: !GetAtt UserPool.Arn

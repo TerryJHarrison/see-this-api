@@ -32,7 +32,7 @@ def lambda_handler(event, context):
 
     try:
         cognito.admin_delete_user(
-            UserPoolId='us-east-1_sxLaqd27l',
+            UserPoolId='us-east-1_sxLaqd27l', #TODO use env variable supplied via sam template
             Username=decoded['cognito:username']
         )
 
