@@ -13,6 +13,7 @@ on:
       - docs/**
       - .github/workflows/open-api-docs.yml
       - .github/dependabot.yml
+      - .gitignore
 
 jobs:
   build-and-deploy:
