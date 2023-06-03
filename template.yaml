@@ -242,7 +242,7 @@ Resources:
   VerifyAuthChallengePermission:
     Type: AWS::Lambda::Permission
     Properties:
-      FunctionName: !GetAtt VerifyAuthChallenge.Arn
+      FunctionName: !GetAtt VerifyAuthChallengeFunction.Arn
       Principal: cognito-idp.amazonaws.com
       Action: lambda:InvokeFunction
       SourceArn: !GetAtt UserPool.Arn
