@@ -205,7 +205,7 @@ Resources:
       FunctionName: st-define-auth-challenge
       CodeUri: src/js/defineAuthChallenge
       Handler: index.handler
-      Runtime: nodejs12.x
+      Runtime: nodejs18.x
       Timeout: 10
   DefineAuthChallengePermission:
     Type: AWS::Lambda::Permission
@@ -221,7 +221,7 @@ Resources:
       FunctionName: st-create-auth-challenge
       CodeUri: src/js/createAuthChallenge
       Handler: index.handler
-      Runtime: nodejs12.x
+      Runtime: nodejs18.x
       Timeout: 10
   CreateAuthChallengePermission:
     Type: AWS::Lambda::Permission
@@ -237,7 +237,7 @@ Resources:
       FunctionName: st-verify-auth-challenge
       CodeUri: src/js/verifyAuthChallenge
       Handler: index.handler
-      Runtime: nodejs12.x
+      Runtime: nodejs18.x
       Timeout: 10
   VerifyAuthChallengePermission:
     Type: AWS::Lambda::Permission

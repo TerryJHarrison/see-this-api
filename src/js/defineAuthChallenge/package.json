@@ -5,6 +5,6 @@
     "crypto-js": "latest"
   },
   "engines": {
-    "node": "12.x"
+    "node": "18.x"
   }
 }
